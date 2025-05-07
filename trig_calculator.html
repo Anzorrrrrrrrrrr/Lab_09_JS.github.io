@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Обчислення тригонометричних функцій</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Калькулятор тригонометричних функцій</h2>
+    <p>Введіть кут у градусах:</p>
+    <input type="text" name="angle" onchange="checkAngle(this)">
+    <p>Виберіть функцію:</p>
+    <select name="function">
+        <option value="">-- Виберіть функцію --</option>
+        <option value="sin">sin</option>
+        <option value="cos">cos</option>
+        <option value="tan">tan</option>
+    </select>
+    <p><button onclick="calculate()">Обчислити</button></p>
+    <p><b id="result"></b></p>
+
+    <script>
+        function checkAngle(field) {
+            let value = field.value;
+            if (isNaN(value) || value === "") {
+                alert("Будь ласка, введіть коректний кут у градусах.");
+                field.focus();
+                field.select();
+            }
+        }
+
+        function calculate() {
+            let angle = document.getElementsByName("angle")[0].value;
+            let func = document.getElementsByName("function")[0].value;
+            let errors = "";
+
+            if (isNaN(angle) || angle === "") errors += "кут\n";
+            if (func === "") errors += "функцію\n";
+
+            if (errors !== "") {
+                alert("Введіть:\n" + errors);
+                return;
+            }
+
+            // Переведення градусів у радіани
+            let radians = angle * Math.PI / 180;
+            let expression = "Math." + func + "(" + radians + ")";
+            let result = eval(expression);
+
+            document.getElementById("result").innerHTML = 
+                func + "(" + angle + "°) = " + result.toFixed(4);
+        }
+    </script>
+</body>
+</html>
