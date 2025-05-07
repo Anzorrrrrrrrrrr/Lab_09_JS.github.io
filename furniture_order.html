@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Замовлення меблів</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Замовлення меблів</h2>
+    <form name="F1" method="POST" action="">
+        <p>Виберіть виріб:</p>
+        <select name="item">
+            <option value="">-- Виберіть виріб --</option>
+            <option value="Шафа">Шафа</option>
+            <option value="Стіл">Стіл</option>
+            <option value="Сервант">Сервант</option>
+            <option value="Ліжко">Ліжко</option>
+        </select>
+        <p>Виберіть матеріал:</p>
+        <select name="material">
+            <option value="">-- Виберіть матеріал --</option>
+            <option value="Дуб">Дуб</option>
+            <option value="Горіх">Горіх</option>
+            <option value="Бук">Бук</option>
+        </select>
+        <p>Введіть кількість:</p>
+        <input type="text" name="quantity" onchange="checkQuantity(this)">
+        <p><input type="submit" value="Відправити" onclick="return validateForm()"></p>
+    </form>
+
+    <script>
+        function checkQuantity(field) {
+            let value = field.value;
+            if (isNaN(value) || value <= 0 || value === "") {
+                alert("Будь ласка, введіть коректну кількість (ціле число більше 0).");
+                field.focus();
+                field.select();
+            }
+        }
+
+        function validateForm() {
+            let item = document.F1.item.value;
+            let material = document.F1.material.value;
+            let quantity = document.F1.quantity.value;
+            let errors = "";
+
+            if (item === "") errors += "виріб\n";
+            if (material === "") errors += "матеріал\n";
+            if (quantity === "" || isNaN(quantity) || quantity <= 0) errors += "кількість\n";
+
+            if (errors === "") {
+                document.F1.action = "order_confirmation.php";
+                return true;
+            } else {
+                alert("Введіть:\n" + errors);
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
